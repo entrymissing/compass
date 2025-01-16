@@ -7,7 +7,8 @@ class Goal(models.Model):
   status = models.CharField(max_length=10,
                             choices=[('active', 'Active'),
                                      ('completed', 'Completed'),
-                                     ('postponed', 'Postponed')])
+                                     ('postponed', 'Postponed'),
+                                     ('archived', 'Archived')])
   priority = models.IntegerField()
   context = models.CharField(max_length=10,
                              choices=[('work', 'Work'),

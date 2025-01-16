@@ -83,6 +83,23 @@
       .slider.round:before {
         border-radius: 50%;
       }
+      #goals a, #weekly a {
+        color: white;
+        text-decoration: none;
+      }
+      #goals a:hover, #weekly a:hover {
+        text-decoration: underline;
+        font-weight: bold;
+      }
+      .add-goal {
+        color: white;
+        text-decoration: none;
+        font-size: 18px;
+        margin-left: 10px;
+      }
+      .add-goal:hover {
+        text-decoration: underline;
+      }
     </style>
   </head>
   <body>
@@ -103,18 +120,22 @@
     </div>
     <div id="sidebar">
       <div id="goals">
-        <h3>Quarter</h3>
+        <h3>Quarter
+          <a href="{% url 'add_goal' %}?context={{ context }}&goal_type=quarterly" class="add-goal">+</a>
+        </h3>
         {% for goal in goals %}
         {% if goal.goal_type == 'quarterly' and goal.context == context %}
-        {{ goal.title }}{% if goal.status == 'completed' %} ✔{% endif %}<br>
+        <a href="{% url 'edit_goal' goal.id %}">{{ goal.title }}{% if goal.status == 'completed' %} ✔{% endif %}</a><br>
         {% endif %}
         {% endfor %}
       </div>
       <div id="weekly">
-        <h3>Week</h3>
+        <h3>Week
+          <a href="{% url 'add_goal' %}?context={{ context }}&goal_type=weekly" class="add-goal">+</a>
+        </h3>
         {% for goal in goals %}
         {% if goal.goal_type == 'weekly' and goal.context == context %}
-        {{ goal.title }}{% if goal.status == 'completed' %} ✔{% endif %}<br>
+        <a href="{% url 'edit_goal' goal.id %}">{{ goal.title }}{% if goal.status == 'completed' %} ✔{% endif %}</a><br>
         {% endif %}
         {% endfor %}
       </div>

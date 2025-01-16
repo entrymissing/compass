@@ -20,6 +20,40 @@ def index(request):
                                           'meditation': meditation})
 
 
+@login_required
+def edit_goal(request, id):
+    goal = Goal.objects.get(id=id)
+    if request.method == 'POST':
+        goal.title = request.POST['title']
+        goal.status = request.POST['status']
+        goal.save()
+        return HttpResponseRedirect('/')
+    return render(request, 'edit_goal.html', {'goal': goal})
+
+
+@login_required
+def add_goal(request):
+    context = request.GET.get('context', 'private')
+    goal_type = request.GET.get('goal_type', 'weekly')
+    if request.method == 'POST':
+        title = request.POST['title']
+        status = request.POST['status']
+        highest_priority_goal = Goal.objects.filter(context=context, goal_type=goal_type).order_by('-priority').first()
+        highest_priority = highest_priority_goal.priority if highest_priority_goal else 0
+        Goal.objects.create(title=title, status=status, context=context, goal_type=goal_type, priority=highest_priority + 1)
+        return HttpResponseRedirect('/')
+    return render(request, 'add_goal.html', {'context': context, 'goal_type': goal_type})
+
+
+@login_required
+def delete_goal(request, id):
+    goal = Goal.objects.get(id=id)
+    if request.method == 'POST':
+        goal.delete()
+        return HttpResponseRedirect('/')
+    return render(request, 'edit_goal.html', {'goal': goal})
+
+
 def login(request):
     if request.method == 'POST':
         username = request.POST['username']

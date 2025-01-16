@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Edit Goal</title>
+    <style>
+      body {
+        background-color: black;
+        color: white;
+        font-size: 24px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+      .edit-container {
+        text-align: center;
+      }
+      .edit-form {
+        display: flex;
+        flex-direction: column;
+      }
+      .edit-form input, .edit-form select {
+        margin: 10px 0;
+        padding: 10px;
+        font-size: 18px;
+      }
+      .edit-form button {
+        padding: 10px;
+        font-size: 18px;
+        background-color: #2196F3;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+      .edit-form button:hover {
+        background-color: #1976D2;
+      }
+      .delete-button {
+        background-color: red;
+        margin-top: 10px;
+      }
+      .delete-button:hover {
+        background-color: darkred;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="edit-container">
+      <h1>Edit Goal</h1>
+      <form class="edit-form" method="post">
+        {% csrf_token %}
+        <input type="text" name="title" value="{{ goal.title }}" required>
+        <select name="status" required>
+          <option value="pending" {% if goal.status == 'pending' %}selected{% endif %}>Pending</option>
+          <option value="completed" {% if goal.status == 'completed' %}selected{% endif %}>Completed</option>
+          <option value="archived" {% if goal.status == 'archived' %}selected{% endif %}>Archived</option>
+        </select>
+        <button type="submit">Save</button>
+      </form>
+      <form method="post" action="{% url 'delete_goal' goal.id %}">
+        {% csrf_token %}
+        <button type="submit" class="delete-button">Delete</button>
+      </form>
+    </div>
+  </body>
+</html>
