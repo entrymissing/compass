@@ -2,48 +2,8 @@
 <html>
   <head>
     <title>Edit Goal</title>
-    <style>
-      body {
-        background-color: black;
-        color: white;
-        font-size: 24px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
-      }
-      .edit-container {
-        text-align: center;
-      }
-      .edit-form {
-        display: flex;
-        flex-direction: column;
-      }
-      .edit-form input, .edit-form select {
-        margin: 10px 0;
-        padding: 10px;
-        font-size: 18px;
-      }
-      .edit-form button {
-        padding: 10px;
-        font-size: 18px;
-        background-color: #2196F3;
-        color: white;
-        border: none;
-        cursor: pointer;
-      }
-      .edit-form button:hover {
-        background-color: #1976D2;
-      }
-      .delete-button {
-        background-color: red;
-        margin-top: 10px;
-      }
-      .delete-button:hover {
-        background-color: darkred;
-      }
-    </style>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
   </head>
   <body>
     <div class="edit-container">

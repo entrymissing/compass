@@ -1,5 +1,3 @@
-from django.contrib import admin
-from django.urls import path
 from django.shortcuts import render
 from .models import Goal, Meditation
 import random
@@ -42,7 +40,8 @@ def add_goal(request):
         highest_priority = highest_priority_goal.priority if highest_priority_goal else 0
         Goal.objects.create(title=title, status=status, context=context, goal_type=goal_type, priority=highest_priority + 1)
         return HttpResponseRedirect('/')
-    return render(request, 'add_goal.html', {'context': context, 'goal_type': goal_type})
+    return render(request, 'add_goal.html', {'context': context,
+                                             'goal_type': goal_type})
 
 
 @login_required

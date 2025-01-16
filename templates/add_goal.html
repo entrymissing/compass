@@ -2,41 +2,8 @@
 <html>
   <head>
     <title>Add Goal</title>
-    <style>
-      body {
-        background-color: black;
-        color: white;
-        font-size: 24px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
-      }
-      .add-container {
-        text-align: center;
-      }
-      .add-form {
-        display: flex;
-        flex-direction: column;
-      }
-      .add-form input, .add-form select {
-        margin: 10px 0;
-        padding: 10px;
-        font-size: 18px;
-      }
-      .add-form button {
-        padding: 10px;
-        font-size: 18px;
-        background-color: #2196F3;
-        color: white;
-        border: none;
-        cursor: pointer;
-      }
-      .add-form button:hover {
-        background-color: #1976D2;
-      }
-    </style>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
   </head>
   <body>
     <div class="add-container">
