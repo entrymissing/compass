@@ -159,3 +159,26 @@ input:checked + .slider:before {
 .error {
     color: red;
 }
+
+.all-goals-container {
+    text-align: center;
+    padding: 20px;
+}
+
+.goal-section {
+    margin-bottom: 20px;
+}
+
+.goal-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.goal-item input[type="text"] {
+    width: 70%;
+}
+
+.goal-item input[type="number"] {
+    width: 20%;
+}

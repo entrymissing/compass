@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>All Goals</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+  </head>
+  <body>
+    <div class="all-goals-container">
+      <h1>All Goals - {{ context|title }}</h1>
+      <form method="post">
+        {% csrf_token %}
+        <div class="goal-section">
+          <h2>Quarterly Goals</h2>
+          {% for goal in quarterly_goals %}
+          <div class="goal-item">
+            <input type="text" name="title_{{ goal.id }}" value="{{ goal.title }}" required>
+            <input type="number" name="priority_{{ goal.id }}" value="{{ goal.priority }}" required>
+          </div>
+          {% endfor %}
+        </div>
+        <div class="goal-section">
+          <h2>Weekly Goals</h2>
+          {% for goal in weekly_goals %}
+          <div class="goal-item">
+            <input type="text" name="title_{{ goal.id }}" value="{{ goal.title }}" required>
+            <input type="number" name="priority_{{ goal.id }}" value="{{ goal.priority }}" required>
+          </div>
+          {% endfor %}
+        </div>
+        <button type="submit">Save Changes</button>
+      </form>
+    </div>
+  </body>
+</html>
