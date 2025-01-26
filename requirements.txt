@@ -1,1 +1,7 @@
-Django
+Flask>=2.0.2
+gunicorn
+flask_wtf
+google-api-python-client
+google-auth-httplib2
+google-auth-oauthlib
+apscheduler

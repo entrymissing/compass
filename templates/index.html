@@ -1,70 +1,62 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Compass</title>
-    {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <title>My Page</title>
+    <style>
+      body {
+        background-color: black;
+        color: white;
+        font-size: 24px;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        height: 100vh;
+      }
+      #content {
+        width: 80%;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      #sidebar {
+        width: 20%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        padding: 20px;
+      }
+      #goals {
+        text-align: left;
+        font-size: 14px;
+        margin-bottom: 30px;
+      }
+      #weekly {
+        text-align: left;
+        font-size: 14px;
+      }
+    </style>
   </head>
   <body>
-    <div id="toggle-container">
-      <label class="toggle-switch">
-        <input type="checkbox" id="context-toggle" onchange="toggleContext()">
-        <span class="slider round"></span>
-      </label>
-      <span id="context-label">Private</span>
-    </div>
     <div id="content">
       <div>
-        {% if context == "private" %}
         <h1>{{ meditation.title }}</h1>
-        <p>{{ meditation.content }}</p>
-        {% endif %}
+        <p>{{ meditation.body }}.</p>
       </div>
     </div>
     <div id="sidebar">
       <div id="goals">
-        <h3>Quarter
-          <a href="{% url 'add_goal' %}?context={{ context }}&goal_type=quarterly" class="add-goal">+</a>
-        </h3>
+        <h3>Quarter</h3>
         {% for goal in goals %}
-        {% if goal.goal_type == 'quarterly' and goal.context == context %}
-        <a href="{% url 'edit_goal' goal.id %}">{{ goal.title }}{% if goal.status == 'completed' %} ✔{% endif %}</a><br>
-        {% endif %}
+        {{ goal }}<br>
         {% endfor %}
       </div>
       <div id="weekly">
-        <h3>Week
-          <a href="{% url 'add_goal' %}?context={{ context }}&goal_type=weekly" class="add-goal">+</a>
-        </h3>
-        {% for goal in goals %}
-        {% if goal.goal_type == 'weekly' and goal.context == context %}
-        <a href="{% url 'edit_goal' goal.id %}">{{ goal.title }}{% if goal.status == 'completed' %} ✔{% endif %}</a><br>
-        {% endif %}
+        <h3>Week</h3>
+        {% for weekly in week %}
+        {{ weekly }}<br>
         {% endfor %}
       </div>
     </div>
-    <script>
-      function toggleContext() {
-        var toggle = document.getElementById("context-toggle");
-        var context = toggle.checked ? "work" : "private";
-        window.location.search = "context=" + context;
-      }
-
-      function setToggleStateFromURL() {
-        var params = new URLSearchParams(window.location.search);
-        var context = params.get("context");
-        var toggle = document.getElementById("context-toggle");
-        var label = document.getElementById("context-label");
-        if (context === "work") {
-          toggle.checked = true;
-          label.innerHTML = "Work";
-        } else {
-          toggle.checked = false;
-          label.innerHTML = "Private";
-        }
-      }
-
-      window.onload = setToggleStateFromURL;
-    </script>
   </body>
 </html>
