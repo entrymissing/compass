@@ -6,6 +6,8 @@ from google.oauth2 import service_account
 from apscheduler.schedulers.background import BackgroundScheduler
 
 import random
+import pickle
+import os
 
 app = Flask(__name__)
 
@@ -13,6 +15,19 @@ app = Flask(__name__)
 content_cache = {}
 # To make sure the scheduler is only running one instance
 appHasRunBefore = False
+PICKLE_FILE = 'content_cache.pkl'
+
+
+def load_cache_from_pickle():
+  global content_cache
+  if os.path.exists(PICKLE_FILE):
+    with open(PICKLE_FILE, 'rb') as f:
+      content_cache = pickle.load(f)
+
+
+def save_cache_to_pickle():
+  with open(PICKLE_FILE, 'wb') as f:
+    pickle.dump(content_cache, f)
 
 
 def refresh_content_cache(encoding='utf-8'):
@@ -37,13 +52,15 @@ def refresh_content_cache(encoding='utf-8'):
 
   # Update the in-memory cache
   parse_markdown(content_str)
+  save_cache_to_pickle()
 
 
 def parse_markdown(content_str: str):
   # Reset the cache
   content_cache['content'] = content_str
-  content_cache['goals'] = []
-  content_cache['week'] = []
+  content_cache['themes'] = []
+  content_cache['maintenance'] = []
+  content_cache['strategic'] = []
   content_cache['meditations'] = []
 
   lines = [lin.strip() for lin in content_str.split('\n') if lin.strip()]
@@ -73,8 +90,9 @@ def index():
 
   # Render the index.html template
   return render_template('index.html',
-                         goals=content_cache['goals'],
-                         week=content_cache['week'],
+                         themes=content_cache['themes'],
+                         maintenance=content_cache['maintenance'],
+                         strategic=content_cache['strategic'],
                          meditation=meditation)
 
 
@@ -82,7 +100,9 @@ def index():
 with app.app_context():
   if not appHasRunBefore:
     appHasRunBefore = True
-    refresh_content_cache()
+    load_cache_from_pickle()
+    if not content_cache:
+      refresh_content_cache()
     scheduler = BackgroundScheduler(daemon=True)
     scheduler.add_job(refresh_content_cache, 'interval', minutes=5)
     scheduler.start()
