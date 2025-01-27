@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, abort
-
+from markupsafe import Markup
 from googleapiclient.discovery import build
 from google.oauth2 import service_account
 
@@ -52,16 +52,14 @@ def refresh_content_cache(encoding='utf-8'):
 
   # Update the in-memory cache
   parse_markdown(content_str)
+  print(content_str)
+  print(content_cache)
   save_cache_to_pickle()
 
 
 def parse_markdown(content_str: str):
   # Reset the cache
   content_cache['content'] = content_str
-  content_cache['themes'] = []
-  content_cache['maintenance'] = []
-  content_cache['strategic'] = []
-  content_cache['meditations'] = []
 
   lines = [lin.strip() for lin in content_str.split('\n') if lin.strip()]
 
@@ -72,7 +70,12 @@ def parse_markdown(content_str: str):
       current_key = line.lstrip('#').strip().lower()
       content_cache[current_key] = []
     elif line.startswith('-') and current_key:
-      content_cache[current_key].append(line.lstrip('-').strip())
+      task = line.lstrip('-').strip()
+      if task.startswith('[x]'):
+        task = Markup(f"<s>{task[3:].strip()}</s>")
+      elif task.startswith('[ ]'):
+        task = task[3:].strip()
+      content_cache[current_key].append(task)
 
 
 @app.route('/')
@@ -80,6 +83,12 @@ def index():
   token = request.args.get('token')
   if token != 'testtoken':
     abort(403)
+
+  context = request.args.get('context')
+  if context == 'work':
+    return render_template('work.html',
+                           goals=content_cache.get('work projects', []),
+                           weekly=content_cache.get('work weekly', []))
 
   num_pairs = len(content_cache.get('meditations', [])) // 2
   pair_index = random.randint(0, num_pairs - 1) if num_pairs > 0 else 0

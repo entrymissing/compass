@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Work Goals</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  </head>
+  <body>
+    <div id="content">
+    </div>
+    <div id="sidebar">
+      <div id="goals">
+        <h3>Goals</h3>
+        {% for goal in goals %}
+        {{ goal }}<br>
+        {% endfor %}
+      </div>
+      <div id="weekly">
+        <h3>Weekly</h3>
+        {% for task in weekly %}
+        {{ task }}<br>
+        {% endfor %}
+      </div>
+    </div>
+  </body>
+</html>
