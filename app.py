@@ -52,8 +52,6 @@ def refresh_content_cache(encoding='utf-8'):
 
   # Update the in-memory cache
   parse_markdown(content_str)
-  print(content_str)
-  print(content_cache)
   save_cache_to_pickle()
 
 
@@ -102,6 +100,7 @@ def index():
                          themes=content_cache['themes'],
                          maintenance=content_cache['maintenance'],
                          strategic=content_cache['strategic'],
+                         intrinsic=content_cache['intrinsic'],
                          meditation=meditation)
 
 

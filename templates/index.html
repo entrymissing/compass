@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
   </head>
   <body>
-    <div id="content">
+    <div id="content" style="display: flex; flex-direction: column;">
       <div>
         <h1>{{ meditation.title }}</h1>
         <p>{{ meditation.body }}</p>
@@ -15,9 +15,9 @@
     </div>
     <div id="sidebar">
       <div id="themes">
-        <h3>Themes</h3>
+        <h1>Themes</h1>
         {% for theme in themes %}
-        {{ theme }}<br>
+          {{ theme }}<br>
         {% endfor %}
       </div>
       <div id="maintenance">
@@ -30,6 +30,12 @@
         <h3>Strategic</h3>
         {% for strategy in strategic %}
         {{ strategy }}<br>
+        {% endfor %}
+      </div>
+      <div id="intrinsic">
+        <h3>Intrinsic</h3>
+        {% for intrinsic_item in intrinsic %}
+        {{ intrinsic_item }}<br>
         {% endfor %}
       </div>
     </div>

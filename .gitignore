@@ -1,5 +1,5 @@
 # Anything in the wallpapers folder
-static/wallpapers/*.jpg
+content_cache.pkl
 
 # The credentials file
 credentials.json
